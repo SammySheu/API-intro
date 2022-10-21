@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h3 class="keyWord"></h3>
+    <img src="#">
+    <input type="text" id="userInput" placeholder="Search for your own gif" > 
+    <button class='newOne'>Change Gif</button>
+    
+    <script>
+        const img = document.querySelector('img');
+        const button = document.querySelector('.newOne');
+        const title = document.querySelector('.keyWord');
+        let input = document.getElementById('userInput');
+        input.value = 'roaring cats'; 
+        // title.textContent = 'Roaring Cat';
+        findPicture(); 
+        button.addEventListener('click', findPicture);
+        function findPicture(){
+            // console.log(input.value);
+            fetch(`https://api.giphy.com/v1/gifs/translate?api_key=2DU1N5hgU1SYr4WLqQDkz0wgXvbfJjh3&s=${input.value}`, {mode: 'cors'})
+            .then( function(response){
+                // console.log(response.json());
+                return response.json();
+            })
+            .then( function(response){
+                // console.log(response);
+                img.src = response.data.images.original.url; 
+                updateTitle(input.value);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        }
+        function updateTitle(keyWord){
+            title.textContent = keyWord;
+        }
+    </script>
+</body>
+</html>
